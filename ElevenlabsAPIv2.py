@@ -2,27 +2,33 @@ from elevenlabs import clone, generate, play, set_api_key
 from elevenlabs.api import History
 from moviepy.editor import AudioFileClip
 from pydub import AudioSegment
-set_api_key("SuperSecret")
+import os
+set_api_key("")
 
 
 
-def main(Keyword):
+
+def main(Keyword, desc, lines):
     if __name__ == "__main__":
         voice = clone(
             name=Keyword, # SHOULD MATCH THE SEARCH WORD USED IN YTGetVoiceVid.py
-            description="An old American male voice with a slight hoarseness in his throat. Perfect for news.",
-            files=["./segment_0.flac", "./segment_1.flac", "./segment_2.flac", "./segment_3.flac", "./segment_4.flac" ]
-        )
-
-        audio = generate(text="Some very long text to be read by the voice.", voice=voice)
+            description=desc,
+            files=["training_audio/segment_0.flac", "training_audio/segment_1.flac", "training_audio/segment_2.flac", "training_audio/segment_3.flac", "training_audio/segment_4.flac" ]
+        )   
+    
+        audio = generate(text=lines, voice=voice)
 
         # Assuming the audio is a byte-like object, save it temporarily as a wav file
-        temp_filename = "temp_audio.wav"
-        with open(temp_filename, 'wb') as f:
-            f.write(audio)
-
-        # Convert and save as .flac using moviepy
-        audio_clip = AudioFileClip(temp_filename)
         flac_filename = f"{voice.name}.flac"
-        audio_clip.write_audiofile(flac_filename, codec='flac')
+        with open(flac_filename, 'wb') as f:
+            f.write(audio)
+            
+        # Delete all files in the training_audio folder
+        for filename in os.listdir('training_audio'):
+            file_path = os.path.join('training_audio', filename)
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+
+        
+
 

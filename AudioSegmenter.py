@@ -22,12 +22,18 @@ def split_audio_into_segments(combined_audio, segment_length=150000):
     return segments
 
 def save_segments_to_flac(segments):
+    # Create the directory if it doesn't exist
+    directory = "training_audio"
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
     file_paths = []
     for index, segment in enumerate(segments):
-        file_name = f"segment_{index}.flac"
+        file_name = os.path.join(directory, f"segment_{index}.flac")
         segment.export(file_name, format="flac")
         file_paths.append(file_name)
-        if index==2:
+        
+        if index == 2:
             break
     return file_paths
 
@@ -51,3 +57,4 @@ def main():
         segment_file_paths = save_segments_to_flac(segments)
 
         
+main()

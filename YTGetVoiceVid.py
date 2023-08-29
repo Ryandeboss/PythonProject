@@ -7,7 +7,7 @@ import re
 import requests
 import json
 
-DEVELOPER_KEY = "AlsoSuperSecret"
+DEVELOPER_KEY = ""
 YOUTUBE_API_SERVICE_NAME = 'youtube'
 YOUTUBE_API_VERSION = 'v3'
 
@@ -152,3 +152,4 @@ def main(method = "query", channel_username = "Kentucky Ballistics",query = "Don
             download_audio(video_id)
 
 
+main()
